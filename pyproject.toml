@@ -11,4 +11,4 @@ extend-exclude = ["notebooks"]   # cuaderno entregado en la EA1, se conserva tal
 select = ["E", "F", "W", "I"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["comun", "scraper_beautifulsoup", "scraper_selenium", "scraper_scrapy", "comparar_resultados"]
+known-first-party = ["comun", "scraper_beautifulsoup", "scraper_selenium", "scraper_scrapy", "comparar_resultados", "generar_sitio"]

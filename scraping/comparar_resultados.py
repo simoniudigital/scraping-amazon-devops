@@ -14,10 +14,10 @@ CAMPOS = ["titulo", "precio_cop", "calificacion", "num_calificaciones", "tienda"
           "disponibilidad", "categoria"]
 
 
-def cargar():
+def cargar(carpeta=DATA_DIR):
     registros = []
     for archivo in ARCHIVOS.values():
-        ruta = DATA_DIR / archivo
+        ruta = carpeta / archivo
         if ruta.exists():
             datos = json.loads(ruta.read_text(encoding="utf-8"))
             registros.extend(datos if isinstance(datos, list) else [datos])
