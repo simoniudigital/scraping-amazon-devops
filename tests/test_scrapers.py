@@ -10,7 +10,8 @@ from scraper_scrapy import ProductoAmazonSpider
 
 ESPERADO = {
     "titulo": "Set de prueba de 3 lienzos decorativos",
-    "precio_cop": 120500.5,
+    "precio": 120500.5,
+    "moneda": "COP",
     "calificacion": 4.5,
     "num_calificaciones": 1234,
     "tienda": "TiendaPrueba",
