@@ -9,8 +9,8 @@ import time
 import requests
 from bs4 import BeautifulSoup
 
-from comun import (HEADERS, HTML_GUARDADO, SELECTORES as S, URL, armar_producto, es_captcha,
-                   guardar, limpiar_resena, resumen)
+from comun import HEADERS, HTML_GUARDADO, URL, armar_producto, es_captcha, guardar, limpiar_resena, resumen
+from comun import SELECTORES as S
 
 
 def texto(soup, selector):

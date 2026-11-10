@@ -13,8 +13,8 @@ import time
 import scrapy
 from scrapy.crawler import CrawlerProcess
 
-from comun import (DATA_DIR, HEADERS, HTML_GUARDADO, SELECTORES as S, URL, armar_producto,
-                   es_captcha, limpiar_resena)
+from comun import DATA_DIR, HEADERS, HTML_GUARDADO, URL, armar_producto, es_captcha, limpiar_resena
+from comun import SELECTORES as S
 
 
 def limpio(lista):

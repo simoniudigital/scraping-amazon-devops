@@ -19,8 +19,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from comun import (DATA_DIR, SELECTORES as S, URL, armar_producto, es_captcha, guardar,
-                   limpiar_resena, resumen)
+from comun import DATA_DIR, URL, armar_producto, es_captcha, guardar, limpiar_resena, resumen
+from comun import SELECTORES as S
 
 
 def texto(contenedor, selector):
