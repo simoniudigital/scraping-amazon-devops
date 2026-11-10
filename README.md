@@ -95,3 +95,7 @@ Las pruebas no se conectan a Amazon: usan páginas sintéticas con la misma estr
 - Amazon a veces responde con un captcha o pide iniciar sesión para ver reseñas. El código lo detecta y
   no intenta evadirlo; en GitHub Actions es habitual que la extracción en vivo reciba captcha, por lo que
   el workflow programado conserva los datos anteriores en ese caso.
+- Amazon muestra el precio según el país de la visita: en pesos (COP) desde Colombia y en dólares (USD)
+  desde los servidores de GitHub en Estados Unidos. Por eso cada registro guarda `precio` y `moneda`.
+- Los pull requests que abre el workflow programado usan el `GITHUB_TOKEN`, y GitHub no ejecuta CI sobre
+  ellos automáticamente; para validarlos se cierra y se vuelve a abrir el pull request.

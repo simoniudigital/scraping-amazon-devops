@@ -66,8 +66,12 @@ footer a{color:var(--suave)}
 """
 
 
-def pesos(valor):
-    return f"${valor:,.0f}".replace(",", ".") if valor else "—"
+def formatear_precio(valor, moneda):
+    if not valor:
+        return "—"
+    if moneda == "USD":
+        return f"US${valor:,.2f}"
+    return f"${valor:,.0f}".replace(",", ".")
 
 
 def histograma(hist):
@@ -111,6 +115,7 @@ def generar(salida, carpeta_datos=DATA_DIR):
         raise SystemExit(f"No hay resultados en {carpeta_datos}; ejecuta primero los scrapers.")
     p = registros[0]
     con_resenas = max(registros, key=lambda r: len(r["resenas"]))
+    precio = formatear_precio(p["precio"], p["moneda"])
     commit = os.environ.get("GITHUB_SHA", "")[:7]
     repo = os.environ.get("GITHUB_REPOSITORY", "")
     generado = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
@@ -144,7 +149,7 @@ def generar(salida, carpeta_datos=DATA_DIR):
 </div></header>
 <main>
   <section class="kpis">
-    <div class="kpi"><span>Precio</span><strong>{pesos(p['precio_cop'])}</strong> COP</div>
+    <div class="kpi"><span>Precio</span><strong>{precio}</strong> {p['moneda'] or ''}</div>
     <div class="kpi"><span>Calificación</span><strong>{p['calificacion'] or '—'}</strong> / 5</div>
     <div class="kpi"><span>Calificaciones</span><strong>{p['num_calificaciones'] or '—'}</strong></div>
     <div class="kpi"><span>Disponibilidad</span><strong class="ok">{escape(p['disponibilidad'] or '—')}</strong></div>

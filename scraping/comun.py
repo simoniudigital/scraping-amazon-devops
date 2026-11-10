@@ -62,6 +62,16 @@ def histograma_desde_etiquetas(etiquetas):
     return hist if any(hist.values()) else {}
 
 
+def detectar_moneda(texto):
+    """Amazon muestra COP si detecta una visita desde Colombia y USD desde Estados Unidos."""
+    texto = (texto or "").upper()
+    if "COP" in texto:
+        return "COP"
+    if "US$" in texto or "USD" in texto or texto.strip().startswith("$"):
+        return "USD"
+    return None
+
+
 def es_captcha(html):
     """Amazon a veces responde con un captcha o con la pantalla 'Continue shopping'."""
     pagina = html.lower()
@@ -76,7 +86,8 @@ def armar_producto(metodo, crudo, tiempo_seg, fuente="en vivo"):
         "fuente": fuente,
         "asin": ASIN,
         "titulo": crudo.get("titulo"),
-        "precio_cop": a_numero(crudo.get("precio")),
+        "precio": a_numero(crudo.get("precio")),
+        "moneda": detectar_moneda(crudo.get("precio")),
         "calificacion": a_numero(crudo.get("calificacion")),
         "num_calificaciones": int(a_numero(crudo.get("num_calificaciones")) or 0) or None,
         "tienda": (crudo.get("tienda") or "").replace("Visita la tienda de ", "") or None,
@@ -98,7 +109,7 @@ def guardar(registro, nombre):
 def resumen(r):
     return (f"[{r['metodo']}] {r['tiempo_seg']} s · fuente: {r['fuente']}\n"
             f"  Título       : {(r['titulo'] or '')[:80]}\n"
-            f"  Precio       : {r['precio_cop']} COP\n"
+            f"  Precio       : {r['precio']} {r['moneda'] or ''}\n"
             f"  Calificación : {r['calificacion']} ({r['num_calificaciones']} calificaciones)\n"
             f"  Tienda       : {r['tienda']}\n"
             f"  Histograma % : {r['histograma_pct']}\n"
