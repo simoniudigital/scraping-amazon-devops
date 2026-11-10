@@ -1,7 +1,14 @@
 """Pruebas de las funciones de limpieza compartidas."""
 import pytest
 
-from comun import a_numero, armar_producto, es_captcha, histograma_desde_etiquetas, limpiar_resena
+from comun import (
+    a_numero,
+    armar_producto,
+    detectar_moneda,
+    es_captcha,
+    histograma_desde_etiquetas,
+    limpiar_resena,
+)
 
 
 @pytest.mark.parametrize("texto, esperado", [
@@ -31,6 +38,16 @@ def test_histograma_con_espacio_duro_y_niveles_faltantes():
     assert histograma_desde_etiquetas([]) == {}
 
 
+@pytest.mark.parametrize("texto, moneda", [
+    ("COP94,633.44", "COP"),
+    ("$29.99", "USD"),
+    ("US$29.99", "USD"),
+    ("", None),
+])
+def test_detectar_moneda(texto, moneda):
+    assert detectar_moneda(texto) == moneda
+
+
 def test_es_captcha(html_producto, html_captcha):
     assert es_captcha(html_captcha)
     assert not es_captcha(html_producto)
@@ -42,7 +59,8 @@ def test_armar_producto_normaliza_campos():
              "num_calificaciones": "(12)", "tienda": "Visita la tienda de ABC",
              "categoria": "Hogar›Arte"}
     r = armar_producto("Prueba", crudo, 1.234)
-    assert r["precio_cop"] == 10000.0
+    assert r["precio"] == 10000.0
+    assert r["moneda"] == "COP"
     assert r["num_calificaciones"] == 12
     assert r["tienda"] == "ABC"
     assert r["categoria"] == "Hogar › Arte"

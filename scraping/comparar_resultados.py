@@ -10,7 +10,7 @@ from comun import DATA_DIR
 
 ARCHIVOS = {"BeautifulSoup": "producto_bs4.json", "Selenium": "producto_selenium.json",
             "Scrapy": "producto_scrapy.json"}
-CAMPOS = ["titulo", "precio_cop", "calificacion", "num_calificaciones", "tienda",
+CAMPOS = ["titulo", "precio", "moneda", "calificacion", "num_calificaciones", "tienda",
           "disponibilidad", "categoria"]
 
 
