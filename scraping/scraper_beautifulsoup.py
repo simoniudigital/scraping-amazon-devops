@@ -9,8 +9,8 @@ import time
 import requests
 from bs4 import BeautifulSoup
 
-from comun import (HEADERS, HTML_GUARDADO, SELECTORES as S, URL, armar_producto, es_captcha,
-                   guardar, limpiar_resena, resumen)
+from comun import HEADERS, HTML_GUARDADO, URL, armar_producto, es_captcha, guardar, limpiar_resena, resumen
+from comun import SELECTORES as S
 
 
 def texto(soup, selector):
@@ -18,15 +18,9 @@ def texto(soup, selector):
     return el.get_text(" ", strip=True) if el else None
 
 
-def scrapear():
-    inicio = time.time()
-    respuesta = requests.get(URL, headers=HEADERS, timeout=30)
-    respuesta.raise_for_status()
-    if es_captcha(respuesta.text):
-        raise RuntimeError("Amazon respondió con un captcha; espera unos minutos y reintenta.")
-    HTML_GUARDADO.write_text(respuesta.text, encoding="utf-8")
-
-    soup = BeautifulSoup(respuesta.text, "lxml")
+def parsear(html):
+    """Extrae los textos de la ficha (sin limpiar) a partir del HTML."""
+    soup = BeautifulSoup(html, "lxml")
     crudo = {campo: texto(soup, S[campo]) for campo in
              ("titulo", "precio", "num_calificaciones", "tienda", "disponibilidad", "categoria")}
     calificacion = soup.select_one(S["calificacion"])
@@ -39,7 +33,17 @@ def scrapear():
         "fecha": texto(r, S["resena_fecha"]),
         "texto": limpiar_resena(texto(r, S["resena_texto"])),
     } for r in soup.select(S["resena"])]
-    return armar_producto("BeautifulSoup", crudo, time.time() - inicio)
+    return crudo
+
+
+def scrapear():
+    inicio = time.time()
+    respuesta = requests.get(URL, headers=HEADERS, timeout=30)
+    respuesta.raise_for_status()
+    if es_captcha(respuesta.text):
+        raise RuntimeError("Amazon respondió con un captcha; espera unos minutos y reintenta.")
+    HTML_GUARDADO.write_text(respuesta.text, encoding="utf-8")
+    return armar_producto("BeautifulSoup", parsear(respuesta.text), time.time() - inicio)
 
 
 if __name__ == "__main__":

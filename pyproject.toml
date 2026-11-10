@@ -1,0 +1,14 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["notebooks"]   # cuaderno entregado en la EA1, se conserva tal cual
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["comun", "scraper_beautifulsoup", "scraper_selenium", "scraper_scrapy", "comparar_resultados", "generar_sitio"]
