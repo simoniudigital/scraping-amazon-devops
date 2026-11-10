@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.venv/
+.ipynb_checkpoints/
+
+# HTML completo descargado de Amazon (pesado y con contenido de terceros)
+data/pagina_amazon.html
+data/*.xlsx
+
+# Sitio generado por el pipeline de despliegue
+public/
