@@ -1,4 +1,4 @@
 ﻿metodo,fuente,tiempo_seg,campos_ok,titulo,precio_cop,calificacion,num_calificaciones,tienda,disponibilidad,categoria,caracteristicas,resenas
-BeautifulSoup,en vivo,2.67,7/7,HSHFKLH 3 piezas de arte de pared de lienzo de mujeres afroamericanas de 12,94633.44,4.8,104,HSHFKLH,Disponible,Hogar y Cocina › Obras de Arte y Material Decorativo › Pósteres,5,8
+BeautifulSoup,en vivo,2.19,7/7,HSHFKLH 3 piezas de arte de pared de lienzo de mujeres afroamericanas de 12,29.99,4.8,105,HSHFKLH,Disponible,Hogar y Cocina › Obras de Arte y Material Decorativo › Pósteres,5,0
 Selenium,en vivo,8.83,7/7,HSHFKLH 3 piezas de arte de pared de lienzo de mujeres afroamericanas de 12,94633.44,4.8,104,HSHFKLH,Disponible,Hogar y Cocina › Obras de Arte y Material Decorativo › Pósteres,5,8
-Scrapy,HTML guardado (captcha en vivo),4.57,7/7,HSHFKLH 3 piezas de arte de pared de lienzo de mujeres afroamericanas de 12,94633.44,4.8,104,HSHFKLH,Disponible,Hogar y Cocina › Obras de Arte y Material Decorativo › Pósteres,5,8
+Scrapy,en vivo,5.23,7/7,HSHFKLH 3 piezas de arte de pared de lienzo de mujeres afroamericanas de 12,29.99,4.8,105,HSHFKLH,Disponible,Hogar y Cocina › Obras de Arte y Material Decorativo › Pósteres,5,0
