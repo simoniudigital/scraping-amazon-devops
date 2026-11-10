@@ -3,7 +3,7 @@ name: CI
 
 on:
   push:
-    branches: [main, develop, "feature/**"]
+    branches: [develop, "feature/**"]   # en main lo ejecuta deploy.yml antes de publicar
   pull_request:
     branches: [main, develop]
   workflow_call:   # el pipeline de despliegue lo reutiliza como primera etapa

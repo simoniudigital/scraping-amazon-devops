@@ -1,0 +1,51 @@
+# Automatización: cada lunes vuelve a extraer el artículo y propone los datos nuevos en un pull request.
+# Si Amazon responde con un captcha, el scraper falla sin inventar datos y se conservan los anteriores.
+name: Actualizar datos
+
+on:
+  schedule:
+    - cron: "0 13 * * 1"   # lunes 8:00 a. m. hora de Colombia
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  scraping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: develop
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: BeautifulSoup
+        continue-on-error: true
+        run: python scraping/scraper_beautifulsoup.py
+      - name: Selenium (Chrome headless)
+        continue-on-error: true
+        run: python scraping/scraper_selenium.py --headless
+      - name: Scrapy
+        continue-on-error: true
+        run: python scraping/scraper_scrapy.py
+      - name: Tablas comparativas
+        run: python scraping/comparar_resultados.py
+
+      - name: Abrir pull request con los datos nuevos
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: datos/actualizacion-automatica
+          base: develop
+          commit-message: "Actualiza datos del artículo (extracción automática)"
+          title: "Actualización automática de datos del artículo"
+          body: |
+            Datos extraídos por el workflow **Actualizar datos** (ejecución #${{ github.run_number }}).
+            Revisa la tabla `data/comparacion_metodos.csv` antes de fusionar: el campo `fuente`
+            indica si cada método obtuvo la página en vivo o si Amazon respondió con un captcha.
+          add-paths: data/
+          delete-branch: true
