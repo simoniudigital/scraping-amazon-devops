@@ -28,7 +28,7 @@ def texto(contenedor, selector):
     return " ".join(elementos[0].get_attribute("textContent").split()) if elementos else None
 
 
-def scrapear(headless=False):
+def scrapear(headless=False, url=URL, captura=DATA_DIR / "captura_selenium.png"):
     opciones = webdriver.ChromeOptions()
     if headless:
         opciones.add_argument("--headless=new")
@@ -37,7 +37,7 @@ def scrapear(headless=False):
     driver = webdriver.Chrome(options=opciones)   # Selenium Manager instala el driver
     inicio = time.time()
     try:
-        driver.get(URL)
+        driver.get(url)
         espera = 20
         if es_captcha(driver.page_source):
             if headless:
@@ -72,7 +72,8 @@ def scrapear(headless=False):
             "fecha": texto(r, S["resena_fecha"]),
             "texto": limpiar_resena(texto(r, S["resena_texto"])),
         } for r in driver.find_elements(By.CSS_SELECTOR, S["resena"])]
-        driver.save_screenshot(str(DATA_DIR / "captura_selenium.png"))
+        if captura:
+            driver.save_screenshot(str(captura))
     finally:
         driver.quit()
     return armar_producto("Selenium", crudo, time.time() - inicio)
